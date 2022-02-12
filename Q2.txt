@@ -1,0 +1,21 @@
+package com.prodapt.training.assignments;
+
+import java.util.*;
+
+public class DigitToWord {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Enter the number/digit :");
+		String snum=sc.next();
+		int size=snum.length();
+		String numWord[]= {"Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine"};
+		for(int i=0;i<size;i++) {
+			for(int j=0;j<=10;j++) {
+				if(Character.getNumericValue(snum.charAt(i))==j) {
+					System.out.println(numWord[j]);
+				}
+			}
+		}
+		sc.close();
+	}
+}

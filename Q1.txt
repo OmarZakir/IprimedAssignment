@@ -1,0 +1,46 @@
+package com.prodapt.training.assignments;
+
+public class Vehicle {
+	String engine;
+	int wheels;
+
+	void speed() {
+		System.out.println("Speed of the vehicle is ...");
+	}
+}
+
+
+package com.prodapt.training.assignments;
+
+public class Car extends Vehicle {
+	int ac;
+
+	void performance() {
+		System.out.println("Car is performing");
+	}
+}
+
+
+package com.prodapt.training.assignments;
+
+public class Scooter extends Vehicle {
+	String charger;
+
+	void rideScooter() {
+		System.out.println("Scooter is ready to ride");
+	}
+}
+
+
+package com.prodapt.training.assignments;
+
+public class TestVehicle {
+public static void main(String[] args) {
+	Car c=new Car();
+	Scooter s= new Scooter();
+	c.performance();
+	c.speed();
+	s.rideScooter();
+	s.speed();
+}
+}

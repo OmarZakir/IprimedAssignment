@@ -1,0 +1,48 @@
+package com.prodapt.training.assignments;
+
+public class BankApplication {
+	String name = null;
+	int birthYear = 0;
+	int phNo = 0;
+	String accountType = null;
+
+	void setInfo(String name, int birthYear, int phNo, String accountType) {
+		this.name = name;
+		this.birthYear = birthYear;
+		this.phNo = phNo;
+		this.accountType = accountType;
+	}
+
+	void getInfo() {
+		System.out.println("Name :" + name);
+		System.out.println("Year of birth :" + birthYear);
+		System.out.println("Phone number :" + phNo);
+		System.out.println("Account type :" + accountType);
+	}
+
+	void registration(int age) {
+		if (age >= 18) {
+			System.out.println("Eligible to open account");
+		} else {
+			System.out.println("You can wait till you turn 18 or you can open a joint account with your parents");
+		}
+	}
+}
+
+
+
+package com.prodapt.training.assignments;
+
+import java.util.*;
+
+public class TestBankApplication {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		BankApplication ba = new BankApplication();
+		System.out.println("Enter age :");
+		int age = sc.nextInt();
+		ba.setInfo("Omar", (2022 - age), 1122334455, "Saving");
+		ba.getInfo();
+		ba.registration(age);
+	}
+}
