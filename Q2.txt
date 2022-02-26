@@ -1,20 +1,123 @@
-package com.prodapt.training.assignments;
+package com.prodapt.training.assesments.week3;
 
+import java.sql.*;
+
+public class EstablishConnection {
+	static Connection connectDB() {
+		Connection con = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/employees", "root", "omar");
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+		}
+		return con;
+	}
+}
+
+
+package com.prodapt.training.assesments.week3;
+
+import java.sql.*;
 import java.util.*;
 
-public class DigitToWord {
-	public static void main(String[] args) {
+public class DataOperations {
+	Connection con = EstablishConnection.connectDB();
+	PreparedStatement pStmt = null;
+	ResultSet rs = null;
+	Scanner sc = new Scanner(System.in);
+
+	void operationRead() throws SQLException {
+		pStmt = con.prepareStatement("select * from employee");
+		rs = pStmt.executeQuery();
+		System.out.println("All the records are as follows");
+		while (rs.next()) {
+			System.out.println(rs.getInt(1) + " " + rs.getString(2) + " " + rs.getInt(3) + " " + rs.getInt(4) + " "
+					+ rs.getString(5));
+		}
+		System.out.println();
+		rs.close();
+		pStmt.close();
+		con.close();
+	}
+
+	void operationDelete() throws SQLException {
+		pStmt = con.prepareStatement("delete from employee where id=?");
+		System.out.println("Enter id of record which needs to be deleted");
+		int id = sc.nextInt();
+		pStmt.setInt(1, id);
+		pStmt.executeUpdate();
+		System.out.println("Record with ID=" + id + " got deleted");
+		System.out.println();
+		pStmt.close();
+		con.close();
+	}
+
+	void operationCreate() throws SQLException {
+		pStmt = con.prepareStatement("insert into employee values(?,?,?,?,?)");
+		System.out.println("Enter ID");
+		int id = sc.nextInt();
+		System.out.println("Enter Name");
+		String name = sc.next();
+		System.out.println("Enter Age");
+		int age = sc.nextInt();
+		System.out.println("Enter Salary");
+		int salary = sc.nextInt();
+		System.out.println("Enter Designation");
+		String desg = sc.next();
+		pStmt.setInt(1, id);
+		pStmt.setString(2, name);
+		pStmt.setInt(3, age);
+		pStmt.setInt(4, salary);
+		pStmt.setString(5, desg);
+		pStmt.executeUpdate();
+		System.out.println("New record Created/Inserted");
+		System.out.println();
+		pStmt.close();
+		con.close();
+	}
+
+	void operationUpdate() throws SQLException {
+		pStmt = con.prepareStatement("update employee set salary=? where designation=?");
+		System.out.println("Enter designation to update Salary");
+		String desg = sc.next();
+		System.out.println("Enter new salary");
+		int salary = sc.nextInt();
+		pStmt.setInt(1, salary);
+		pStmt.setString(2, desg);
+		pStmt.executeUpdate();
+		System.out.println("Salary Updapted");
+		System.out.println();
+		pStmt.close();
+		con.close();
+	}
+}
+
+
+package com.prodapt.training.assesments.week3;
+
+import java.sql.*;
+import java.util.*;
+
+public class ProcessEmpData {
+	public static void main(String[] args) throws SQLException {
+		System.out.println("Connection established to DB");
+		System.out.println();
+		DataOperations dO = new DataOperations();
 		Scanner sc = new Scanner(System.in);
-		System.out.println("Enter the number/digit :");
-		String snum=sc.next();
-		int size=snum.length();
-		String numWord[]= {"Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine"};
-		for(int i=0;i<size;i++) {
-			for(int j=0;j<=10;j++) {
-				if(Character.getNumericValue(snum.charAt(i))==j) {
-					System.out.println(numWord[j]);
-				}
-			}
+		System.out.println("Enter the operation type");
+		String opr = sc.next();
+		System.out.println();
+		if (opr.equalsIgnoreCase("create") || opr.equalsIgnoreCase("insert")) {
+			dO.operationCreate();
+		} else if (opr.equalsIgnoreCase("update")) {
+			dO.operationUpdate();
+		} else if (opr.equalsIgnoreCase("read")) {
+			dO.operationRead();
+		} else if (opr.equalsIgnoreCase("delete")) {
+			dO.operationDelete();
+		} else {
+			System.out.println("Invalid input for operations");
 		}
 		sc.close();
 	}
